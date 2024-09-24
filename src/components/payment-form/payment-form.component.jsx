@@ -22,6 +22,9 @@ const PaymentForm = () => {
     const paymentHandler = async (e) => {
         e.preventDefault();
 
+        console.log(elements.getElement(CardElement));
+        console.log(currentUser);
+
         if (!stripe || !elements) {
             return;
         }
@@ -40,13 +43,14 @@ const PaymentForm = () => {
             paymentIntent: { client_secret },
         } = response;
 
-        console.log(client_secret);
+        console.log(elements.getElement(CardElement));
+        console.log(currentUser);
 
         const paymentResult = await stripe.confirmCardPayment(client_secret, {
             payment_method: {
                 card: elements.getElement(CardElement),
                 billing_details: {
-                    name: currentUser ? currentUser.displayName : "Guest",
+                    name: currentUser ? currentUser?.displayName : "Guest",
                 },
             },
         });
